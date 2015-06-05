@@ -2531,6 +2531,18 @@
                             return this;
                         }
                         var field = T._fieldsByName[keyOrObj];
+                        if (!field)
+                            throw Error(this+"#"+keyOrObj+" is not a field: undefined");
+                        if (field.repeated) {
+                          if (!(value instanceof Array)) {
+                            var replace = [];
+                            for (var i in value) {
+                              replace.push(value[i]); 
+                            }
+                            value = replace;
+                          }
+                        }
+
                         if (!noAssert) {
                             if (!field)
                                 throw Error(this+"#"+keyOrObj+" is not a field: undefined");
